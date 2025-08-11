@@ -9,13 +9,14 @@ const Board: React.FC<BoardProps> = ({
   winningLine = [],
   disabled = false,
 }) => {
-  const renderSquare = (index: number) => {
+  const renderSquare = (index: number): React.ReactElement => {
     const isWinningSquare = winningLine.includes(index);
+    const squareValue = squares[index] ?? null;
 
     return (
       <Square
         key={index}
-        value={squares[index]}
+        value={squareValue}
         onClick={() => onSquareClick(index)}
         isWinningSquare={isWinningSquare}
         disabled={disabled}

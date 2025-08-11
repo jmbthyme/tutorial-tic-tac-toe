@@ -89,7 +89,10 @@
   - Write unit tests for Board component including user interactions
   - _Requirements: 1.2, 2.1, 3.2, 5.1, 5.2, 4.1_
 
-- [ ] 8. Refactor Game component as main container
+- [x] 8. Refactor Game component as main container
+
+
+
   - Create components/Game/Game.tsx using the useGameState hook
   - Implement move history display with proper accessibility
   - Add keyboard navigation for history buttons
