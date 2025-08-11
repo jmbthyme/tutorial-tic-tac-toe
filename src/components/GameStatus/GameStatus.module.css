@@ -1,0 +1,90 @@
+/* GameStatus component styles */
+.gameStatus {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  font-size: 1.125rem;
+  transition: all 0.2s ease-in-out;
+  min-height: 3rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.gameActive {
+  background-color: #e3f2fd;
+  border: 2px solid #2196f3;
+  color: #1565c0;
+}
+
+.gameOver {
+  background-color: #e8f5e8;
+  border: 2px solid #4caf50;
+  color: #2e7d32;
+}
+
+.statusText {
+  flex: 1;
+  text-align: center;
+}
+
+.gameOverIndicator {
+  font-size: 1.5rem;
+  animation: bounce 0.6s ease-in-out;
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .gameStatus {
+    font-size: 1rem;
+    padding: 0.75rem;
+    min-height: 2.5rem;
+  }
+
+  .gameOverIndicator {
+    font-size: 1.25rem;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .gameActive {
+    background-color: #ffffff;
+    border-color: #000000;
+    color: #000000;
+  }
+
+  .gameOver {
+    background-color: #ffffff;
+    border-color: #000000;
+    color: #000000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .gameStatus {
+    transition: none;
+  }
+
+  .gameOverIndicator {
+    animation: none;
+  }
+}
