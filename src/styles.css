@@ -1,67 +1,20 @@
-* {
-  box-sizing: border-box;
-}
+/* Import Design System Styles */
+@import './styles/variables.css';
+@import './styles/reset.css';
 
+/* Global Application Styles */
 body {
-  font-family: sans-serif;
-  margin: 20px;
+  margin: var(--spacing-5);
   padding: 0;
 }
 
-h1 {
-  margin-top: 0;
-  font-size: 22px;
-}
-
-h2 {
-  margin-top: 0;
-  font-size: 20px;
-}
-
-h3 {
-  margin-top: 0;
-  font-size: 18px;
-}
-
-h4 {
-  margin-top: 0;
-  font-size: 16px;
-}
-
-h5 {
-  margin-top: 0;
-  font-size: 14px;
-}
-
-h6 {
-  margin-top: 0;
-  font-size: 12px;
-}
-
-code {
-  font-size: 1.2em;
-}
-
-ul {
-  padding-inline-start: 20px;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  font-family: sans-serif;
-  margin: 20px;
-  padding: 0;
-}
-
+/* Legacy styles for backward compatibility - will be removed once all components use CSS modules */
 .square {
-  background: #fff;
-  border: 1px solid #999;
+  background: var(--color-square-background);
+  border: var(--border-width-1) solid var(--color-board-background);
   float: left;
-  font-size: 24px;
-  font-weight: bold;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
   line-height: 34px;
   height: 34px;
   margin-right: -1px;
@@ -69,6 +22,16 @@ body {
   padding: 0;
   text-align: center;
   width: 34px;
+  transition: var(--transition-fast);
+}
+
+.square:hover {
+  background: var(--color-square-hover);
+}
+
+.square:focus {
+  outline: var(--focus-ring-width) solid var(--color-border-focus);
+  outline-offset: var(--focus-ring-offset);
 }
 
 .board-row:after {
@@ -78,13 +41,54 @@ body {
 }
 
 .status {
-  margin-bottom: 10px;
+  margin-bottom: var(--spacing-3);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
 }
+
 .game {
   display: flex;
   flex-direction: row;
+  gap: var(--spacing-8);
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .game-info {
-  margin-left: 20px;
+  margin-left: var(--spacing-5);
+  flex: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  body {
+    margin: var(--spacing-3);
+  }
+
+  .game {
+    flex-direction: column;
+    gap: var(--spacing-6);
+  }
+
+  .game-info {
+    margin-left: 0;
+  }
+}
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: high) {
+  .square {
+    border-color: var(--color-text-primary);
+  }
+
+  .status {
+    color: var(--color-text-primary);
+  }
+}
+
+/* Reduced motion adjustments */
+@media (prefers-reduced-motion: reduce) {
+  .square {
+    transition: none;
+  }
 }
