@@ -1,4 +1,4 @@
-import React from 'react';
+// React import removed as it's not needed in test files
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Board from './Board';
@@ -118,13 +118,13 @@ describe('Board', () => {
       render(<Board {...defaultProps} />);
       const squares = screen.getAllByTestId(/square-/);
 
-      fireEvent.click(squares[0]);
+      fireEvent.click(squares[0]!);
       expect(mockOnSquareClick).toHaveBeenCalledWith(0);
 
-      fireEvent.click(squares[4]);
+      fireEvent.click(squares[4]!);
       expect(mockOnSquareClick).toHaveBeenCalledWith(4);
 
-      fireEvent.click(squares[8]);
+      fireEvent.click(squares[8]!);
       expect(mockOnSquareClick).toHaveBeenCalledWith(8);
     });
 
@@ -144,7 +144,7 @@ describe('Board', () => {
       render(<Board {...defaultProps} disabled={true} />);
       const squares = screen.getAllByTestId(/square-/);
 
-      fireEvent.click(squares[0]);
+      fireEvent.click(squares[0]!);
       expect(mockOnSquareClick).not.toHaveBeenCalled();
     });
   });
