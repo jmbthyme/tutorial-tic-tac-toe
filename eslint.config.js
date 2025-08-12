@@ -25,6 +25,8 @@ export default [
         document: 'readonly',
         console: 'readonly',
         process: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
       },
     },
     plugins: {
@@ -67,7 +69,21 @@ export default [
         afterEach: 'readonly',
         beforeAll: 'readonly',
         afterAll: 'readonly',
+        performance: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
       },
+    },
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-require-imports': 'off',
+      'no-undef': 'off', // TypeScript handles this better
+    },
+  },
+  {
+    files: ['**/performance.ts'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off', // Performance utilities need flexible types
     },
   },
 ];

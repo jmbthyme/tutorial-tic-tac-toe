@@ -1,50 +1,53 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { GameStatusProps } from '../../types';
 import { GAME_MESSAGES } from '../../constants/game';
 import styles from './GameStatus.module.css';
 
-const GameStatus: React.FC<GameStatusProps> = ({
-  winner,
-  isDraw,
-  currentPlayer,
-}) => {
-  const getStatusMessage = (): string => {
-    if (winner) {
-      return GAME_MESSAGES.WINNER(winner);
-    }
-    if (isDraw) {
-      return GAME_MESSAGES.DRAW;
-    }
-    return GAME_MESSAGES.NEXT_PLAYER(currentPlayer);
-  };
+const GameStatus: React.FC<GameStatusProps> = React.memo(
+  ({ winner, isDraw, currentPlayer }) => {
+    const statusMessage = useMemo((): string => {
+      if (winner) {
+        return GAME_MESSAGES.WINNER(winner);
+      }
+      if (isDraw) {
+        return GAME_MESSAGES.DRAW;
+      }
+      return GAME_MESSAGES.NEXT_PLAYER(currentPlayer);
+    }, [winner, isDraw, currentPlayer]);
 
-  const getAriaLabel = (): string => {
-    if (winner) {
-      return `Game over. ${winner} wins the game.`;
-    }
-    if (isDraw) {
-      return 'Game over. The game is a draw.';
-    }
-    return `Game in progress. It is ${currentPlayer}'s turn.`;
-  };
+    const ariaLabel = useMemo((): string => {
+      if (winner) {
+        return `Game over. ${winner} wins the game.`;
+      }
+      if (isDraw) {
+        return 'Game over. The game is a draw.';
+      }
+      return `Game in progress. It is ${currentPlayer}'s turn.`;
+    }, [winner, isDraw, currentPlayer]);
 
-  const isGameOver = winner !== null || isDraw;
+    const isGameOver = useMemo(
+      () => winner !== null || isDraw,
+      [winner, isDraw]
+    );
 
-  return (
-    <div
-      className={`${styles.gameStatus} ${isGameOver ? styles.gameOver : styles.gameActive}`}
-      role="status"
-      aria-live="polite"
-      aria-label={getAriaLabel()}
-    >
-      <span className={styles.statusText}>{getStatusMessage()}</span>
-      {isGameOver && (
-        <span className={styles.gameOverIndicator} aria-hidden="true">
-          🎉
-        </span>
-      )}
-    </div>
-  );
-};
+    return (
+      <div
+        className={`${styles.gameStatus} ${isGameOver ? styles.gameOver : styles.gameActive}`}
+        role="status"
+        aria-live="polite"
+        aria-label={ariaLabel}
+      >
+        <span className={styles.statusText}>{statusMessage}</span>
+        {isGameOver && (
+          <span className={styles.gameOverIndicator} aria-hidden="true">
+            🎉
+          </span>
+        )}
+      </div>
+    );
+  }
+);
+
+GameStatus.displayName = 'GameStatus';
 
 export default GameStatus;

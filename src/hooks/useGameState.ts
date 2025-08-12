@@ -56,7 +56,10 @@ export function useGameState(): UseGameStateReturn {
     () => winnerResult.winningLine,
     [winnerResult.winningLine]
   );
-  const isGameDraw = useMemo(() => isDraw(currentSquares), [currentSquares]);
+  const isGameDraw = useMemo(() => {
+    // Only calculate draw if there's no winner to avoid unnecessary computation
+    return winner ? false : isDraw(currentSquares);
+  }, [currentSquares, winner]);
 
   /**
    * Handles clicking on a square to make a move

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useGameState } from '../../hooks/useGameState';
 import Board from '../Board';
 import GameStatus from '../GameStatus';
@@ -17,28 +17,32 @@ const Game: React.FC = () => {
   } = useGameState();
 
   const { history, currentMove, winner, isDraw } = gameState;
-  const isGameOver = winner !== null || isDraw;
+  const isGameOver = useMemo(() => winner !== null || isDraw, [winner, isDraw]);
 
-  const renderMoveButton = (move: number): React.ReactElement => {
-    const isCurrentMove = move === currentMove;
-    const description = move === 0 ? 'Go to game start' : `Go to move #${move}`;
+  const renderMoveButton = useCallback(
+    (move: number): React.ReactElement => {
+      const isCurrentMove = move === currentMove;
+      const description =
+        move === 0 ? 'Go to game start' : `Go to move #${move}`;
 
-    return (
-      <li key={move} className={styles.historyItem}>
-        <button
-          className={`${styles.historyButton} ${
-            isCurrentMove ? styles.currentMove : ''
-          }`}
-          onClick={() => jumpToMove(move)}
-          disabled={isCurrentMove}
-          aria-label={`${description}${isCurrentMove ? ' (current)' : ''}`}
-          aria-current={isCurrentMove ? 'step' : undefined}
-        >
-          {description}
-        </button>
-      </li>
-    );
-  };
+      return (
+        <li key={move} className={styles.historyItem}>
+          <button
+            className={`${styles.historyButton} ${
+              isCurrentMove ? styles.currentMove : ''
+            }`}
+            onClick={() => jumpToMove(move)}
+            disabled={isCurrentMove}
+            aria-label={`${description}${isCurrentMove ? ' (current)' : ''}`}
+            aria-current={isCurrentMove ? 'step' : undefined}
+          >
+            {description}
+          </button>
+        </li>
+      );
+    },
+    [currentMove, jumpToMove]
+  );
 
   return (
     <div className={styles.game}>
