@@ -35,14 +35,23 @@ const GameStatus: React.FC<GameStatusProps> = React.memo(
         className={`${styles.gameStatus} ${isGameOver ? styles.gameOver : styles.gameActive}`}
         role="status"
         aria-live="polite"
+        aria-atomic="true"
         aria-label={ariaLabel}
+        id="game-status"
       >
-        <span className={styles.statusText}>{statusMessage}</span>
+        <span className={styles.statusText} aria-describedby="status-details">
+          {statusMessage}
+        </span>
         {isGameOver && (
           <span className={styles.gameOverIndicator} aria-hidden="true">
             🎉
           </span>
         )}
+        <div id="status-details" className={styles.srOnly}>
+          {isGameOver
+            ? `Game has ended. ${winner ? `${winner} is the winner.` : 'The game ended in a draw.'} Press Escape or the Reset button to start a new game.`
+            : `Game is in progress. Current player is ${currentPlayer}.`}
+        </div>
       </div>
     );
   }

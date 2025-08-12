@@ -16,7 +16,7 @@ jest.mock('../Square', () => {
     onClick: () => void;
     isWinningSquare?: boolean;
     disabled?: boolean;
-  }) {
+  }): JSX.Element {
     return (
       <button
         onClick={onClick}

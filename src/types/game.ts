@@ -18,6 +18,8 @@ export interface SquareProps {
   onClick: () => void;
   isWinningSquare?: boolean;
   disabled?: boolean;
+  isFocused?: boolean;
+  onFocus?: () => void;
 }
 
 export interface BoardProps {

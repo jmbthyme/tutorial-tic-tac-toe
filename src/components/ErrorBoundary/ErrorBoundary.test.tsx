@@ -247,7 +247,7 @@ describe('ErrorBoundary', () => {
     // This test verifies that ErrorBoundary only catches render errors,
     // not errors in event handlers (which is the expected React behavior)
     const ErrorInHandler: React.FC = () => {
-      const handleClick = () => {
+      const handleClick = (): void => {
         throw new Error('Event handler error');
       };
 

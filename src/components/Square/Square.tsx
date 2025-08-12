@@ -3,7 +3,14 @@ import { SquareProps } from '../../types';
 import styles from './Square.module.css';
 
 const Square: React.FC<SquareProps> = React.memo(
-  ({ value, onClick, isWinningSquare = false, disabled = false }) => {
+  ({
+    value,
+    onClick,
+    isWinningSquare = false,
+    disabled = false,
+    isFocused = false,
+    onFocus,
+  }) => {
     const handleClick = React.useCallback(() => {
       if (!disabled && !value) {
         onClick();
@@ -20,6 +27,12 @@ const Square: React.FC<SquareProps> = React.memo(
       [handleClick]
     );
 
+    const handleFocus = React.useCallback(() => {
+      if (onFocus) {
+        onFocus();
+      }
+    }, [onFocus]);
+
     const squareClasses = React.useMemo(
       () =>
         [
@@ -27,10 +40,11 @@ const Square: React.FC<SquareProps> = React.memo(
           isWinningSquare ? styles.winning : '',
           value ? styles.filled : '',
           disabled ? styles.disabled : '',
+          isFocused ? styles.focused : '',
         ]
           .filter(Boolean)
           .join(' '),
-      [isWinningSquare, value, disabled]
+      [isWinningSquare, value, disabled, isFocused]
     );
 
     return (
@@ -47,6 +61,7 @@ const Square: React.FC<SquareProps> = React.memo(
           [value, isWinningSquare]
         )}
         tabIndex={disabled ? -1 : 0}
+        onFocus={handleFocus}
       >
         {value}
       </button>

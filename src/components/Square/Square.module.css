@@ -25,10 +25,13 @@
   box-shadow: var(--shadow-md);
 }
 
-.square:focus {
+.square:focus,
+.square.focused {
   outline: none;
   border-color: var(--color-border-focus);
   box-shadow: 0 0 0 var(--focus-ring-width) var(--color-primary-light);
+  z-index: 1;
+  position: relative;
 }
 
 .square:active:not(.disabled) {

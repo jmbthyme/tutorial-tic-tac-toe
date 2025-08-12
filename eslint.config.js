@@ -27,6 +27,9 @@ export default [
         process: 'readonly',
         setTimeout: 'readonly',
         clearTimeout: 'readonly',
+        HTMLDivElement: 'readonly',
+        HTMLButtonElement: 'readonly',
+        KeyboardEvent: 'readonly',
       },
     },
     plugins: {
@@ -49,6 +52,7 @@ export default [
       'prettier/prettier': 'error',
       'jsx-a11y/click-events-have-key-events': 'error',
       'jsx-a11y/no-static-element-interactions': 'error',
+      'jsx-a11y/no-noninteractive-element-interactions': 'off', // Allow keyboard handlers on elements with proper ARIA roles
     },
     settings: {
       react: {
