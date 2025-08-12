@@ -99,6 +99,8 @@ const Board: React.FC<BoardProps> = React.memo(
         role="group"
         aria-label="Tic-tac-toe game board, 3 by 3 grid"
         aria-describedby="game-instructions"
+        aria-live="polite"
+        aria-atomic="false"
         onKeyDown={handleKeyDown}
         tabIndex={-1}
       >

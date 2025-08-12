@@ -148,11 +148,7 @@ const Game: React.FC = () => {
         </div>
       </div>
 
-      <div
-        className={styles.gameInfo}
-        role="complementary"
-        aria-labelledby="history-title"
-      >
+      <aside className={styles.gameInfo} aria-labelledby="history-title">
         <h2 id="history-title" className={styles.historyTitle}>
           Game History
         </h2>
@@ -202,7 +198,7 @@ const Game: React.FC = () => {
             </ul>
           </div>
         </div>
-      </div>
+      </aside>
     </div>
   );
 };

@@ -56,7 +56,7 @@ describe('App', () => {
     };
 
     // Create a test App component with the throwing component
-    const TestApp: React.FC = (): React.JSX.Element => {
+    const TestApp: React.FC = (): React.ReactElement => {
       return (
         <div>
           <ThrowingComponent />

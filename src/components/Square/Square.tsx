@@ -60,10 +60,19 @@ const Square: React.FC<SquareProps> = React.memo(
               : 'Empty square, click to place your mark',
           [value, isWinningSquare]
         )}
+        aria-pressed={value !== null}
+        aria-describedby={
+          isWinningSquare ? 'winning-square-description' : undefined
+        }
         tabIndex={disabled ? -1 : 0}
         onFocus={handleFocus}
       >
         {value}
+        {isWinningSquare && (
+          <span id="winning-square-description" className={styles.srOnly}>
+            This square is part of the winning combination
+          </span>
+        )}
       </button>
     );
   }

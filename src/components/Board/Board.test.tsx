@@ -16,7 +16,7 @@ jest.mock('../Square', () => {
     onClick: () => void;
     isWinningSquare?: boolean;
     disabled?: boolean;
-  }): JSX.Element {
+  }): React.ReactElement {
     return (
       <button
         onClick={onClick}
@@ -46,7 +46,7 @@ describe('Board', () => {
   describe('Rendering', () => {
     it('renders without crashing', () => {
       render(<Board {...defaultProps} />);
-      expect(screen.getByRole('grid')).toBeInTheDocument();
+      expect(screen.getByRole('group')).toBeInTheDocument();
     });
 
     it('renders 9 squares', () => {
@@ -84,19 +84,43 @@ describe('Board', () => {
   describe('Accessibility', () => {
     it('has proper role attribute', () => {
       render(<Board {...defaultProps} />);
-      expect(screen.getByRole('grid')).toBeInTheDocument();
+      expect(screen.getByRole('group')).toBeInTheDocument();
     });
 
     it('has descriptive aria-label', () => {
       render(<Board {...defaultProps} />);
-      const board = screen.getByRole('grid');
-      expect(board).toHaveAttribute('aria-label', 'Tic-tac-toe game board');
+      const board = screen.getByRole('group');
+      expect(board).toHaveAttribute(
+        'aria-label',
+        'Tic-tac-toe game board, 3 by 3 grid'
+      );
     });
 
     it('has aria-describedby pointing to instructions', () => {
       render(<Board {...defaultProps} />);
-      const board = screen.getByRole('grid');
+      const board = screen.getByRole('group');
       expect(board).toHaveAttribute('aria-describedby', 'game-instructions');
+    });
+
+    it('has proper ARIA live region attributes', () => {
+      render(<Board {...defaultProps} />);
+      const board = screen.getByRole('group');
+      expect(board).toHaveAttribute('aria-live', 'polite');
+      expect(board).toHaveAttribute('aria-atomic', 'false');
+    });
+
+    it('includes keyboard navigation instructions for screen readers', () => {
+      render(<Board {...defaultProps} />);
+      expect(
+        screen.getByText(/Use arrow keys to navigate the board/)
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText(/Enter or Space to make a move/)
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText(/Home to go to first square/)
+      ).toBeInTheDocument();
+      expect(screen.getByText(/End to go to last square/)).toBeInTheDocument();
     });
 
     it('includes screen reader instructions', () => {
@@ -205,19 +229,19 @@ describe('Board', () => {
   describe('Disabled State', () => {
     it('applies disabled class when disabled prop is true', () => {
       render(<Board {...defaultProps} disabled={true} />);
-      const board = screen.getByRole('grid');
+      const board = screen.getByRole('group');
       expect(board).toHaveClass('disabled');
     });
 
     it('does not apply disabled class when disabled prop is false', () => {
       render(<Board {...defaultProps} disabled={false} />);
-      const board = screen.getByRole('grid');
+      const board = screen.getByRole('group');
       expect(board).not.toHaveClass('disabled');
     });
 
     it('does not apply disabled class when disabled prop is undefined', () => {
       render(<Board {...defaultProps} />);
-      const board = screen.getByRole('grid');
+      const board = screen.getByRole('group');
       expect(board).not.toHaveClass('disabled');
     });
 
@@ -234,13 +258,13 @@ describe('Board', () => {
   describe('CSS Classes', () => {
     it('always applies base board class', () => {
       render(<Board {...defaultProps} />);
-      const board = screen.getByRole('grid');
+      const board = screen.getByRole('group');
       expect(board).toHaveClass('board');
     });
 
     it('applies both board and disabled classes when disabled', () => {
       render(<Board {...defaultProps} disabled={true} />);
-      const board = screen.getByRole('grid');
+      const board = screen.getByRole('group');
       expect(board).toHaveClass('board');
       expect(board).toHaveClass('disabled');
     });

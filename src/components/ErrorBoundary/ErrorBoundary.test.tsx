@@ -274,7 +274,7 @@ describe('ErrorBoundary', () => {
   it('handles multiple error scenarios', (): void => {
     const MultipleErrors: React.FC<{ errorType: 'render' | 'none' }> = ({
       errorType,
-    }): React.JSX.Element => {
+    }): React.ReactElement => {
       if (errorType === 'render') {
         throw new Error('Render error');
       }

@@ -196,6 +196,47 @@ describe('Square Component', () => {
       const square = screen.getByRole('button');
       expect(square).toBeInTheDocument();
     });
+
+    it('has proper aria-pressed attribute for empty square', () => {
+      render(<Square value={null} onClick={mockOnClick} />);
+
+      const square = screen.getByRole('button');
+      expect(square).toHaveAttribute('aria-pressed', 'false');
+    });
+
+    it('has proper aria-pressed attribute for filled square', () => {
+      render(<Square value="X" onClick={mockOnClick} />);
+
+      const square = screen.getByRole('button');
+      expect(square).toHaveAttribute('aria-pressed', 'true');
+    });
+
+    it('includes winning square description when isWinningSquare is true', () => {
+      render(<Square value="X" onClick={mockOnClick} isWinningSquare={true} />);
+
+      expect(
+        screen.getByText('This square is part of the winning combination')
+      ).toBeInTheDocument();
+    });
+
+    it('has aria-describedby for winning squares', () => {
+      render(<Square value="X" onClick={mockOnClick} isWinningSquare={true} />);
+
+      const square = screen.getByRole('button');
+      expect(square).toHaveAttribute(
+        'aria-describedby',
+        'winning-square-description'
+      );
+    });
+
+    it('does not have aria-describedby for non-winning squares', () => {
+      render(
+        <Square value="X" onClick={mockOnClick} isWinningSquare={false} />
+      );
+
+      const square = screen.getByRole('button');
+      expect(square).not.toHaveAttribute('aria-describedby');
+    });
   });
 
   describe('React.memo Optimization', () => {

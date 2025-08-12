@@ -341,4 +341,94 @@ describe('Game Accessibility Tests', () => {
       expect(square).toHaveAttribute('tabindex', '0');
     });
   });
+
+  it('should have proper ARIA pressed states for squares', () => {
+    render(<Game />);
+
+    const squares = screen
+      .getAllByRole('button')
+      .filter(button =>
+        button.getAttribute('aria-label')?.includes('Empty square')
+      );
+
+    // Empty squares should have aria-pressed="false"
+    squares.forEach(square => {
+      expect(square).toHaveAttribute('aria-pressed', 'false');
+    });
+  });
+
+  it('should provide winning square descriptions', async () => {
+    const user = userEvent.setup();
+    render(<Game />);
+
+    const squares = screen
+      .getAllByRole('button')
+      .filter(button =>
+        button.getAttribute('aria-label')?.includes('Empty square')
+      );
+
+    // Create a winning scenario (top row)
+    await user.click(squares[0]!); // X
+    await user.click(squares[3]!); // O
+    await user.click(squares[1]!); // X
+    await user.click(squares[4]!); // O
+    await user.click(squares[2]!); // X wins
+
+    // Check that winning squares have proper descriptions
+    const winningDescriptions = screen.getAllByText(
+      'This square is part of the winning combination'
+    );
+    expect(winningDescriptions).toHaveLength(3); // Top row has 3 squares
+  });
+
+  it('should have proper landmark roles', () => {
+    render(<Game />);
+
+    // Check main landmark
+    expect(screen.getByRole('main')).toBeInTheDocument();
+
+    // Check complementary landmark (sidebar) - aside has implicit complementary role
+    expect(screen.getByRole('complementary')).toBeInTheDocument();
+  });
+
+  it('should have proper list semantics for history', () => {
+    render(<Game />);
+
+    const historyList = screen.getByRole('list', {
+      name: /list of game moves/i,
+    });
+    expect(historyList).toBeInTheDocument();
+
+    // List items have implicit listitem role, so we can still query for them
+    const historyItems = screen.getAllByRole('listitem');
+    expect(historyItems.length).toBeGreaterThan(0);
+  });
+
+  it('should provide reset button when game ends', async () => {
+    const user = userEvent.setup();
+    render(<Game />);
+
+    const squares = screen
+      .getAllByRole('button')
+      .filter(button =>
+        button.getAttribute('aria-label')?.includes('Empty square')
+      );
+
+    // Create a winning scenario
+    await user.click(squares[0]!); // X
+    await user.click(squares[3]!); // O
+    await user.click(squares[1]!); // X
+    await user.click(squares[4]!); // O
+    await user.click(squares[2]!); // X wins
+
+    // Check that reset button appears and is accessible (no autoFocus due to accessibility guidelines)
+    const resetButton = screen.getByRole('button', {
+      name: /Start a new game/i,
+    });
+    expect(resetButton).toBeInTheDocument();
+    expect(resetButton).toHaveAttribute(
+      'aria-describedby',
+      'reset-instructions'
+    );
+  });
 });
